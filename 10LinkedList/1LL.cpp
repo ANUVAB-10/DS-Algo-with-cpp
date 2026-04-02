@@ -129,7 +129,6 @@ bool isPalondrome_Optimal(Node* head) { // sc - O(1), tc - O(n)
     Node* second=reverseLL_Recursive(slow);
     // re-initialize;
     fast=head;
-
     while(second) {
         if(second->data==fast->data) {
             second=second->next;
@@ -139,7 +138,20 @@ bool isPalondrome_Optimal(Node* head) { // sc - O(1), tc - O(n)
     }
     return true;
 }
+void oddEvenList_Optimal(Node* head) { // sc->O(1), tc -> o(n);
+    if(!head || !head->next) return;
+    Node* odd=head;
+    Node* even=head->next;
+    Node* evenHead=even;
+    while(even && even->next) {
+        odd->next=odd->next->next;
+        odd=odd->next;
 
+        even->next=even->next->next;
+        even=even->next;
+    }
+    odd->next=evenHead;
+}
 
 int main() {
     vector<int> nums = {12,2,3,4,5};
@@ -157,4 +169,6 @@ int main() {
     Traversal(head);
     cout << "CheckPalindrome(BF): " << isPalindrome_BF(head) << endl;
     cout << "CheckPalindrome(Optimal): " << isPalondrome_Optimal(head) << endl;
+    oddEvenList_Optimal(head);
+    Traversal(head);
 }
