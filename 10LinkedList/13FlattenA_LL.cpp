@@ -35,7 +35,7 @@ Node* ArrayToLinkedList(vector<int> nums) {
 
     for(int i=1; i<nums.size(); i++) {
         Node* temp = new Node(nums[i]);
-        mover->next = temp;
+        mover->child = temp;
         mover = temp;
     }
     return head;
@@ -60,6 +60,46 @@ void flatten_BF(Node*&head) {
     head=ArrayToLinkedList(a);
 
 }
+void traversal_child(Node*head) {
+    Node* temp=head;
+    if(!head)return;
+    while(temp) {
+        cout << temp->data << " ";
+        temp=temp->child;
+    }return;
+}
+
+Node* mergeLL(Node* h1, Node* h2) {
+    Node* dummy=new Node(-1);
+    Node* moverDum=dummy;
+    while(h1 && h2) {
+        if(h1->data <= h2->data) {
+            moverDum->child=h1;
+            h1=h1->child;
+        }
+        else {
+            moverDum->child=h2;
+            h2=h2->child;
+        }
+        moverDum=moverDum->child;
+        moverDum->next=nullptr;
+    }
+    if(h1) {
+        moverDum->child=h1;
+    }else {
+        moverDum->child=h2;
+    }
+    return dummy->child;
+}
+void flatten_Optimal(Node* &head) {
+    if(!head || !head->next) return;
+    if(head && head->next) {
+        flatten_Optimal(head->next);
+    }
+
+    head = mergeLL(head,head->next);
+    head->next=nullptr;
+}
 
 int main() {
     Node* head = new Node(5);
@@ -76,6 +116,7 @@ int main() {
     head->next->next->next->child = new Node(17);
 
     Traversal(head);
-    flatten_BF(head);
-    Traversal(head);
+    // flatten_BF(head);
+    flatten_Optimal(head);
+    traversal_child(head);
 }
