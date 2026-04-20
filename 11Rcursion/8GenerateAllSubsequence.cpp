@@ -2,13 +2,18 @@
 using namespace std;
 
 void generate_subsequnce(string s, string curr, vector<string> &ans, int i) {
-    if(curr.length()==s.length() || curr.back() == ' ') {
+    if(i==s.length()) {
         ans.push_back(curr);
         return;
     }
 
-    // insert first
-    generate_subsequnce(s,curr+s[i],ans,i);
+    // pick
+    generate_subsequnce(s,curr+string(1,s[i]),ans,i+1);
+
+    // then skip
+    generate_subsequnce(s,curr,ans,i+1);
+    
+
 }   
 
 int main() {
@@ -16,4 +21,8 @@ int main() {
     string curr = "";
     vector<string> ans;
     generate_subsequnce(s,curr,ans, 0);
+    for (string& s : ans) {
+        cout << s << " ";
+    }
+    cout << endl;
 }
