@@ -1,35 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void combinationSum2(vector<int>nums,int target, vector<int>temp,set<vector<int>>& ans, int i) {
-
-    int sum = accumulate(temp.begin(), temp.end(), 0);
+void combinationSum2(vector<int>nums,int target, vector<int>temp, vector<vector<int>>& ans, int i) {
 
     // base case
-    if(sum == target) {
-        sort(temp.begin(),temp.end()); // o(nlogn)
-        ans.insert(temp); // o(logn)
+    if(target == 0) {
+        ans.push_back(temp); 
         return;
     }
-    if(i == nums.size() || sum > target) {
+    if(i == nums.size() || target < 0) {
         return;
     }
 
     // pick
-    temp.push_back(nums[i]);
-    combinationSum2(nums,target,temp,ans,i+1);
-    
-    // skip 
-    temp.pop_back();
-    combinationSum2(nums,target,temp,ans,i+1);
+    for(int j=i; j<nums.size(); j++) {
+        if(j > i && nums[j] == nums[j-1]) continue;
+
+        else {
+            temp.push_back(nums[j]);
+            combinationSum2(nums,target - nums[j], temp, ans, j+1);
+            temp.pop_back();
+        }
+    }
     
 }
 
 int main() {
     vector<int> nums = {10,1,2,7,6,1,5};
     int target = 8;
+    sort(nums.begin(), nums.end());
     vector<int> temp;
-    set<vector<int>> ans;
+    vector<vector<int>> ans;
     combinationSum2(nums,target,temp,ans,0);
     for(auto i:ans) {
         for(auto j : i) {
