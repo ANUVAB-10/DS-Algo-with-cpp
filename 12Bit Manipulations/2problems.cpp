@@ -86,4 +86,7 @@ int main() {
     checkPowOf2(16);
     countSetBits(15);
     countSetBits_second(15);
+    // built in setbit count
+    cout << __popcount(15) << endl;
+    
 }
