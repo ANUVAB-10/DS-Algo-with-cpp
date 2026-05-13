@@ -47,8 +47,9 @@ void clearRightMostSetbit(int n) {
 // 7
 // power of 2
 void checkPowOf2(int n) {
-    if(n & n-1) cout << "no";
-    else cout << "yes";
+    if(n<=0) cout << "no";
+    else if(n & n-1) cout << "no";
+    else cout << "yes" ;
     cout << endl;
 }
 
