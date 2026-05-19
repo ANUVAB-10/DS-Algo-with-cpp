@@ -34,5 +34,5 @@ string PrefixToInfix(string ip) {
 
 int main() {
     string ip = "/-AB*+DEF";
-    cout << "postfix to infix: " << PrefixToInfix(ip) << endl;
+    cout << "postfix to postfix: " << PrefixToInfix(ip) << endl;
 }
