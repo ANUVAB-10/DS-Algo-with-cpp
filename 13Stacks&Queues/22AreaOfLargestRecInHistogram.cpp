@@ -36,5 +36,5 @@ int areaRec(vector<int> &heights) {
 
 int main() {
     vector<int> heights = {2,1,5,6,2,3};
-    cout << "Area of largest rectangle: " << areaRec(heights) << endl;
+    cout << "Area of largest rectangle in histogram: " << areaRec(heights) << endl;
 }
