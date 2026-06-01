@@ -39,5 +39,5 @@ int main() {
     vector<int> nums = {1,1,1,0,0,0,1,1,1,1,0};
     int k = 2;
     cout << "max 1s with k flips (BF): " << max1sBF(nums, k) << endl;
-    cout << "max 1s with k flips (optimized): " << longestOnes(nums, k) << endl;
+    cout << "max 1s with k flips (better): " << longestOnes(nums, k) << endl;
 }
