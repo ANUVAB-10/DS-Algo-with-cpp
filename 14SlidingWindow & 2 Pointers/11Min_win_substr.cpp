@@ -32,10 +32,42 @@ string minWindow_BF(string s, string t) {
     return stInd == -1 ? "" : s.substr(stInd, minLen);
 }
 
+string minWindow_OP(string s, string t) {
+    int l=0, r=0, cnt=0, minLen=INT_MAX, stInd=-1;
+    
+    // prestore
+    unordered_map<char,int> mp;
+    for(char i:t) mp[i]++;
+
+    while(r < s.length()) {
+        
+        if(mp[s[r]] > 0) {
+            cnt++;
+        }
+
+        mp[s[r]]--;
+
+        while(cnt == t.length()) {
+            if(r-l+1 < minLen) {
+                minLen = r-l+1;
+                stInd = l;
+            }
+            mp[s[l]]++;
+            if(mp[s[l]] > 0) cnt--;
+            l++;
+        }
+
+        r++;
+    }
+    return stInd == -1 ? "" : s.substr(stInd, minLen);
+}
+
+
 int main() {
     string s="ADOBECODEBANC";
     string t = "ABC";
 
     cout << "min window substring(BF): " << minWindow_BF(s,t) << endl;
+    cout << "min window substring(OP): " << minWindow_OP(s,t) << endl;
 
 }
