@@ -54,63 +54,51 @@ Node* constructTree(const vector<optional<int>>& nums) {
 
     return root;
 }
+  
 
-void preorder(Node* root, vector<int>&ans) {
-    if(!root) return;
-    ans.push_back(root->val);
-    preorder(root->left, ans);
-    preorder(root->right, ans);
-}
+vector<vector<int>> levelOrder(Node* root) {
+    vector<vector<int>> ans;
+    queue<vector<Node*>> q;
+    
+    if(!root) return ans;
+    // push the root
+    q.push({root});
 
-void inorder(Node* root, vector<int>&ans) {
-    if(!root) return;
-    inorder(root->left, ans);
-    ans.push_back(root->val);
-    inorder(root->right, ans);
-}
+    while(!q.empty()) {
+        auto top = q.front();
+        q.pop();
 
-void postorder(Node* root, vector<int>&ans) {
-    if(!root) return;
-    postorder(root->left, ans);
-    postorder(root->right, ans);
-    ans.push_back(root->val);
-}
+        vector<int> temp;
+        for(auto i:top) {
+            // push the ans in the vector
+            temp.push_back(i->val);
+        }
+        ans.push_back(temp);
 
-void IterativePostorder(Node* root, vector<int> &ans) {
-    if(!root) return;
-    stack<Node*> s1, s2;
 
-    //push root elm to s1
-    s1.push(root);
-    while(!s1.empty()) {
-        Node* top = s1.top();
-        s1.pop();
-        s2.push(top);
-        if(top->left) s1.push(top->left);
-        if(top->right) s1.push(top->right);
+        // now fill the que with child
+        vector<Node*> temp2;
+        for(auto i:top) {
+            // push child into queue
+            if(i->left) temp2.push_back(i->left);
+            if(i->right) temp2.push_back(i->right);
+        }
+        if(!temp2.empty()) q.push(temp2);
     }
-    // s2 has ans. push it to ans;
-    while(!s2.empty()) {
-        ans.push_back(s2.top()->val);
-        s2.pop();
-    }
-}   
 
+    return ans;
+}
 
 int main() {
     // tree build
     vector<optional<int>> nums = {1,2,3,4,5,nullopt,8,nullopt,nullopt,6,7,9};
     Node* root = constructTree(nums);
     
-    vector<int> ans;
-    // preorder(root, ans);
-    // inorder(root, ans);
-    // postorder(root,ans);
+    vector<vector<int>> ans = levelOrder(root);
 
-    IterativePostorder(root,ans);
-    // print
-    cout << "iterative post-order traversal: ";
-    for(auto i: ans) {
-        cout << i << " ";
-    }cout << endl;
+    for(auto i:ans) {
+        for(auto j:i) {
+            cout << j << " ";
+        } cout << endl;
+    }
 }
