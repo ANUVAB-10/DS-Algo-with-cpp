@@ -56,66 +56,27 @@ Node* constructTree(const vector<optional<int>>& nums) {
     return root;
 }
 
-// not complete..
-// https://excalidraw.com/#json=RcitLkQFe3Ay9A9xAcrcM,wUfN8VFMyMviRqQqTNyEHg
-
-void leftTraversal(Node* root, vector<int>&ans) {
-    if(!root) return ;
-    Node* temp=root;
-    while(temp) {
-        if(!temp->left && !temp->right) break;
-        ans.push_back(temp->val);
-        if(temp->left)
-            temp=temp->left;
-        else
-            temp=temp->right;
-    }
+void f(Node* root, vector<int>&ans, int level) {
+        if(!root)return ;
+        if(ans.size() == level) {
+            ans.push_back(root->val);
+        }
+        f(root->right,ans,level+1);
+        f(root->left,ans,level+1);
+}
+vector<int> rightSideView(Node* root) {
+    vector<int> ans;
+    f(root,ans,0);
+    return ans;
 }
 
-void leafTraversal(Node* root, vector<int>&ans) {
-   if(!root) return;
-
-   if(!root->left && !root->right) {
-        ans.push_back(root->val);
-        return;
-   }
-
-   leafTraversal(root->left, ans);
-   leafTraversal(root->right, ans);
-    
-}
-
-void rightTraversal(Node* root, vector<int>&ans) {
-    if(!root) return;
-    Node*temp=root;
-    while(temp) {
-        // skip the leaf nodes;
-        if(!temp->left && !temp->right) break;
-        ans.push_back(temp->val);
-        if(temp->right)
-            temp=temp->right;
-        else    
-            temp=temp->left;
-    }
-    if(ans.size() > 1) reverse(ans.begin(),ans.end());
-}
-
-vector<int> boundaryTraversal(Node*root) {
-    vector<int> l,leaf,r ;
-    leftTraversal(root,l);
-    leafTraversal(root,leaf);
-    rightTraversal(root->right,r);
-    l.insert(l.end(),leaf.begin(),leaf.end());
-    l.insert(l.end(),r.begin(),r.end());
-    return l;
-}
 
 int main() {
     // tree build
     vector<optional<int>> nums = {1,2,7,3,nullopt,nullopt,8,nullopt,4,9,nullopt,5,6,10,11};
     Node* root = constructTree(nums);
     
-    vector<int> ans = boundaryTraversal(root);
+    vector<int> ans = rightSideView(root);
 
     for(auto i:ans) {
         cout << i << " ";
